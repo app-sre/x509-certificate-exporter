@@ -17,6 +17,32 @@ objects:
   imagePullSecrets:
   - name: ${IMAGE_PULL_SECRET}
 
+- kind: Role
+  apiVersion: rbac.authorization.k8s.io/v1
+  metadata:
+    name: x509-certificate-exporter
+  rules:
+  - verbs:
+    - get
+    - watch
+    - list
+    apiGroups:
+    - ''
+    resources:
+    - secrets
+
+- kind: RoleBinding
+  apiVersion: rbac.authorization.k8s.io/v1
+  metadata:
+    name: x509-certificate-exporter
+  subjects:
+  - kind: ServiceAccount
+    name: x509-certificate-exporter
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: x509-certificate-exporter
+
 - apiVersion: v1
   kind: Secret
   metadata:
@@ -63,9 +89,14 @@ objects:
           - --expose-relative-metrics
           - --watch-kube-secrets
           - --secret-type=kubernetes.io/tls:tls.crt
-          # - --include-namespace={{ . | trim }}
+          - --include-namespace=$(NAMESPACE)
           - --expose-per-cert-error-metrics
           - --listen-address=:${X509_CE_PORT}
+          env:
+          - name: NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
           ports:
           - name: metrics
             containerPort: ${{X509_CE_PORT}}
@@ -78,13 +109,13 @@ objects:
                   - sleep 5
           readinessProbe:
             httpGet:
-              path: /
+              path: /metrics
               port: ${{X509_CE_PORT}}
             initialDelaySeconds: 10
             periodSeconds: 15
           livenessProbe:
             httpGet:
-              path: /
+              path: /metrics
               port: ${{X509_CE_PORT}}
             initialDelaySeconds: 15
             periodSeconds: 15
