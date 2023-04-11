@@ -14,8 +14,9 @@ objects:
     labels:
       app.kubernetes.io/component: x509-certificate-exporter
       app.kubernetes.io/name: x509-certificate-exporter
-  imagepullsecrets:
+  imagePullSecrets:
   - name: ${IMAGE_PULL_SECRET}
+
 - apiVersion: v1
   kind: Secret
   metadata:
