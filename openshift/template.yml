@@ -55,7 +55,7 @@ objects:
                   - x509-certificate-exporter
               topologyKey: "kubernetes.io/hostname"
         containers:
-        - image: "${IMAGE}:${IMAGE_TAG}"
+        - image: "${IMAGE}:${IMAGE_VERSION}"
           name: x509-certificate-exporter
           args:
           - --expose-relative-metrics
@@ -116,7 +116,7 @@ parameters:
   value: "quay.io/app-sre/x509-certificate-exporter"
   required: true
 
-- name: IMAGE_TAG
+- name: IMAGE_VERSION
   description: x509-certificate-exporter version
   value: "latest"
   required: true
