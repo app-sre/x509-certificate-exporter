@@ -14,7 +14,8 @@ objects:
     labels:
       app.kubernetes.io/component: x509-certificate-exporter
       app.kubernetes.io/name: x509-certificate-exporter
-
+  imagepullsecrets:
+  - name: ${IMAGE_PULL_SECRET}
 - apiVersion: v1
   kind: Secret
   metadata:
@@ -120,6 +121,9 @@ parameters:
   description: x509-certificate-exporter version
   value: "latest"
   required: true
+
+- name: IMAGE_PULL_SECRET
+  value: quay.io
 
 - name: X509_CE_PORT
   description: x509-certificate-exporter port
