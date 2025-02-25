@@ -90,7 +90,7 @@ objects:
           args:
           - --expose-relative-metrics
           - --watch-kube-secrets
-          - --secret-type=kubernetes.io/tls:tls.crt
+          - --secret-type=${SECRET_TYPE}
           - --include-namespace=$(NAMESPACE)
           - --expose-per-cert-error-metrics
           - --listen-address=:${X509_CE_PORT}
@@ -183,3 +183,7 @@ parameters:
   description: Prometheus export cpu requests
   value: "10m"
   required: true
+
+- name: SECRET_TYPE
+  description: One or more kubernetes secret type and key to watch
+  value: "kubernetes.io/tls:tls.crt"
