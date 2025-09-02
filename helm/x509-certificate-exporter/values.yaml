@@ -1,0 +1,60 @@
+extraVolumes: []
+extraVolumeMounts: []
+
+imagePullSecrets:
+  - name: quay.io
+
+image:
+  registry: quay.io
+  repository: app-sre/x509-certificate-exporter
+  tag: 3.19.1
+  pullPolicy: IfNotPresent
+
+podListenPort: 8000
+
+secretsExporter:
+  enabled: true
+  replicas: 3
+  secretTypes:
+    - type: kubernetes.io/tls
+      key: tls.crt
+    - type: Opaque
+      key: client.pem
+  includeNamespaceLabels:
+    - monitor-certs=true
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      memory: 64Mi
+  extraVolumes: []
+  extraVolumeMounts: []
+  cache:
+    enabled: true
+    maxDuration: 300
+  readinessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 3
+  livenessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 3
+
+service:
+  create: true
+  port: 8000
+
+rbac:
+  create: true
+  secretsExporter:
+    serviceAccountName: x509-certificate-exporter
+
+rbacProxy:
+  enabled: false
+
+hostPathsExporter:
+  daemonSets: {}
+  enabled: false
+
+psp:
+  create: false
