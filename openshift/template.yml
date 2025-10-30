@@ -56,6 +56,7 @@ objects:
   metadata:
     annotations:
       ignore-check.kube-linter.io/unset-cpu-requirements: "no cpu limits"
+      ${{X509_CE_CUSTOM_DEPLOYMENT_ANNOTATION_01}}: ${{X509_CE_CUSTOM_DEPLOYMENT_ANNOTATION_VAL_01}}
     labels:
       app.kubernetes.io/component: x509-certificate-exporter
       app.kubernetes.io/name: x509-certificate-exporter
@@ -187,3 +188,12 @@ parameters:
 - name: SECRET_TYPE
   description: One or more kubernetes secret type and key to watch
   value: "kubernetes.io/tls:tls.crt"
+
+# DVO
+- name: X509_CE_CUSTOM_DEPLOYMENT_ANNOTATION_01
+  description: Use this for a custom annotation like disabling a DVO check for example
+  value: "x509-custom-annotation-1"
+
+- name: X509_CE_CUSTOM_DEPLOYMENT_ANNOTATION_VAL_01
+  description: Value for custom annotation
+  value: ""
