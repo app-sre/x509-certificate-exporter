@@ -103,32 +103,6 @@ If metrics endpoint fails, the pod will be restarted.
 - Memory is strictly limited to prevent OOM issues
 - Adjust based on actual certificate count in the cluster
 
-## Testing and Validation
-
-### Deployment Validation
-
-1. Ensure the template renders correctly:
-   ```bash
-   oc process -f openshift/template.yml --local | oc apply --dry-run=client -f -
-   ```
-
-2. Validate RBAC permissions are minimal and correct
-
-3. Check that anti-affinity rules can be satisfied by the target cluster
-
-### Metrics Validation
-
-After deployment:
-1. Check metrics endpoint is accessible:
-   ```bash
-   oc port-forward svc/x509-certificate-exporter 8000:8000
-   curl localhost:8000/metrics
-   ```
-
-2. Verify certificate metrics are being exported:
-   - Look for `x509_cert_*` metrics
-   - Verify expiration timestamps are reasonable
-
 ### Common Issues
 
 - **Pods not spreading**: Cluster may not have enough nodes for anti-affinity
