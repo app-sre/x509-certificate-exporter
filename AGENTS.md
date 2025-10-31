@@ -6,16 +6,6 @@ This repository contains deployment configuration for the x509-certificate-expor
 
 **Purpose**: Deploy and configure x509-certificate-exporter on OpenShift/Kubernetes clusters to monitor TLS certificate expiration.
 
-## Project Structure
-
-```
-.
-├── LICENSE                    # Repository license
-├── README.md                  # Basic project documentation
-└── openshift/
-    └── template.yml          # OpenShift template for deployment
-```
-
 ## Key Components
 
 ### OpenShift Template (`openshift/template.yml`)
@@ -184,4 +174,3 @@ This repository appears to be part of an App-SRE (Application Site Reliability E
 - Image sourced from `quay.io/app-sre`
 - Deployment patterns follow App-SRE conventions
 - Consider integration with other app-sre tooling and pipelines
-
